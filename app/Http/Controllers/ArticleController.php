@@ -41,6 +41,7 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+
         $users = $request->only(['category_id', 'title', 'content', 'is_draft']);
         $users['user_id'] = Auth::user()->id;
         Article::create($users);
@@ -82,11 +83,10 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->only(['category_id', 'title', 'content']);
-         $data['user_id'] = \Auth::user()->id;
-
+         // $data['user_id'] = \Auth::user()->id;
         $article = Article::findOrFail($id);
-        $article->save($data);
-
+        $article->fill($data);
+        $article->save();
         return redirect('home');
     }
 
